@@ -1,0 +1,19 @@
+{
+  "name": "frontal",
+  "version": "1.0.0",
+  "description": "",
+  "main": "frontend/index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haochengz/frontal.git"
+  },
+  "author": "Haocheng Zhao",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/haochengz/frontal/issues"
+  },
+  "homepage": "https://github.com/haochengz/frontal#readme"
+}
