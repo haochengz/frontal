@@ -1,30 +1,77 @@
 <template>
-  <nav class="nav_bar">
-    <div class="logo">
-      <a href="/"><img class="logo-img" src="../assets/logo.png" alt="logo"></a>
-    </div>
-    <div class="navigator">
-      <ul class="list list1">
-        <li class="item item1"><a class="item1 right-item"href="#">Login</a></li>
-        <li class="item item1"> | </li>
-        <li class="item item1">Services</li>
-        <li class="item item1"> | </li>
-        <li class="item item1">Blog</li>
-        <li class="item item1"> | </li>
-        <li class="item item1">CV</li>
-        <li class="item item1"> | </li>
-        <li class="item item1">Portfolio</li>
-      </ul>
-    </div>
-  </nav>
+  <div class="">
+    <nav class="nav_bar">
+      <div class="logo">
+        <a href="/"><img class="logo-img" src="../assets/logo.png" alt="logo"></a>
+      </div>
+      <div class="navigator">
+        <ul class="list list1">
+          <li class="item" v-for="(item, index) in navBar" :key="index">
+            <a v-show="item.type === 'link'" class="item1" :href="item.link">{{ item.name }}</a>
+            <button v-show="item.type === 'modal' && !isLogin" class="btn btn-link" type="button" @click="showModal">{{ item.name }}</button>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <modal v-show="isModalVisible" v-bind:show="isModalVisible" v-bind:data="sign" @submit="submit" @close="showModal">
+    </modal>
+  </div>
 </template>
 
 <script>
+import Modal from './Modal.vue'
 export default {
   name: 'Nav',
+  components: {
+    Modal
+  },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      navBar: [
+        { type: 'modal', name: 'Login', link: 'javascript:;' },
+        { type: 'link', name: 'App', link: '/' },
+        { type: 'link', name: 'Blog', link: '/' },
+        { type: 'link', name: 'CV', link: '/' },
+        { type: 'link', name: 'Portfolio', link: '/' }
+      ],
+      isModalVisible: false,
+      isLogin: false,
+      sign: {
+        active: 0,
+        labels: [
+          {
+            label: 'SIGN IN',
+            tip: '',
+            input: [
+              'username',
+              'password'
+            ],
+            submit: 'http://localhost:3001/login'
+          },
+          {
+            label: 'SIGN UP',
+            tip: '',
+            input: [
+              'username',
+              'email',
+              'password'
+            ],
+            submit: 'http://localhost:3001/register'
+          }
+        ]
+      }
+    }
+  },
+  methods: {
+    showModal: function () {
+      this.isModalVisible = !this.isModalVisible
+    },
+    submit: function (url, params) {
+      console.log(url)
+      console.log(params)
+    },
+    login: function () {
+      ;
     }
   }
 }
