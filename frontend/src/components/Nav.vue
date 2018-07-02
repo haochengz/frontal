@@ -20,6 +20,7 @@
 
 <script>
 import Modal from './Modal.vue'
+import axios from 'axios'
 export default {
   name: 'Nav',
   components: {
@@ -46,7 +47,7 @@ export default {
               'username',
               'password'
             ],
-            submit: 'http://localhost:3001/login'
+            submit: '/api/login'
           },
           {
             label: 'SIGN UP',
@@ -56,7 +57,7 @@ export default {
               'email',
               'password'
             ],
-            submit: 'http://localhost:3001/register'
+            submit: '/api/register'
           }
         ]
       }
@@ -69,9 +70,15 @@ export default {
     submit: function (url, params) {
       console.log(url)
       console.log(params)
+      this.login(url, params)
     },
-    login: function () {
-      ;
+    login: function (url, params) {
+      axios.post(url, params)
+        .then((resp) => {
+          console.log(resp)
+        }).catch((err) => {
+          console.log(err)
+        })
     }
   }
 }
