@@ -9,6 +9,7 @@
           <li class="item" v-for="(item, index) in navBar" :key="index">
             <a v-show="item.type === 'link'" class="item1" :href="item.link">{{ item.name }}</a>
             <button v-show="item.type === 'modal' && !isLogin" class="btn btn-link" type="button" @click="showModal">{{ item.name }}</button>
+            <button v-show="item.type === 'modal' && isLogin" class="btn btn-link" type="button" @click="showModal">{{ username }}</button>
           </li>
         </ul>
       </div>
@@ -36,7 +37,6 @@ export default {
         { type: 'link', name: 'Portfolio', link: '/' }
       ],
       isModalVisible: false,
-      isLogin: false,
       sign: {
         active: 0,
         labels: [
@@ -63,6 +63,15 @@ export default {
       }
     }
   },
+  computed: {
+    isLogin () {
+      return this.$store.state.user !== null
+    },
+    username () {
+      return this.$store.state.user
+        ? this.$store.state.user.username : ''
+    }
+  },
   methods: {
     showModal: function () {
       this.isModalVisible = !this.isModalVisible
@@ -75,7 +84,7 @@ export default {
     login: function (url, params) {
       axios.post(url, params)
         .then((resp) => {
-          console.log(resp)
+          this.$store.commit('login', resp.data.user)
         }).catch((err) => {
           console.log(err)
         })
