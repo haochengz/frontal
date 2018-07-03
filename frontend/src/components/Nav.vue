@@ -9,7 +9,7 @@
           <li class="item" v-for="(item, index) in navBar" :key="index">
             <a v-show="item.type === 'link'" class="item1" :href="item.link">{{ item.name }}</a>
             <button v-show="item.type === 'modal' && !isLogin" class="btn btn-link" type="button" @click="showModal">{{ item.name }}</button>
-            <button v-show="item.type === 'modal' && isLogin" class="btn btn-link" type="button" @click="showModal">{{ username }}</button>
+            <button v-show="item.type === 'modal' && isLogin" class="btn btn-link" id="dashboard" type="button" @click="showModal">{{ username }}</button>
           </li>
         </ul>
       </div>
@@ -42,20 +42,20 @@ export default {
         labels: [
           {
             label: 'SIGN IN',
-            tip: '',
+            tip: {content: '', display: false},
             input: [
-              'username',
-              'password'
+              {name: 'username', state: true},
+              {name: 'password', state: true}
             ],
             submit: '/api/login'
           },
           {
             label: 'SIGN UP',
-            tip: '',
+            tip: {content: '', display: false},
             input: [
-              'username',
-              'email',
-              'password'
+              {name: 'username', state: true},
+              {name: 'password1', state: true},
+              {name: 'password2', state: true}
             ],
             submit: '/api/register'
           }

@@ -14,11 +14,12 @@
         </div>
         <div class="body">
             <slot name="modalBody"></slot>
+            <div class="error-tip" v-show="tip.display">{{ tip.content }}</div>
             <ul class="input-list">
               <li class="input-item" v-for="(item, index) in inputBoxes" :key="index">
                 <label>
-                  <span>{{item.toUpperCase()}}: </span>
-                  <input class="input-box" v-model="inputData[index]" :placeholder="item" onfocuse="this.placeholder=''">
+                  <span>{{item.name.toUpperCase()}}: </span>
+                  <input class="input-box" :class="{errorinput:item.state === false}" v-model="inputData[index]" :placeholder="item.name" onfocuse="this.placeholder=''">
                 </label>
               </li>
             </ul>
@@ -43,7 +44,8 @@ export default {
   data: function () {
     return {
       inputBoxes: this.data.labels[this.data.active].input,
-      inputData: new Array(this.data.labels[this.data.active].input.length)
+      inputData: new Array(this.data.labels[this.data.active].input.length),
+      tip: this.data.labels[this.data.active].tip
     }
   },
   methods: {
@@ -58,7 +60,7 @@ export default {
       const url = activeSubmit.submit
       let params = {}
       for (let i in activeSubmit.input) {
-        params[activeSubmit.input[i]] = this.inputData[i]
+        params[activeSubmit.input[i].name] = this.inputData[i]
       }
       this.$emit('submit', url, params)
       this.close()
@@ -66,6 +68,7 @@ export default {
     changeLabel: function (index) {
       this.data.active = index
       this.inputBoxes = this.data.labels[this.data.active].input
+      this.tip = this.data.labels[this.data.active].tip
     }
   }
 }
@@ -134,6 +137,8 @@ export default {
   border: 1px solid #4aae9b;
   border-radius: 2px;
   font-size: 18px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 .label-list {
   margin: 0;
@@ -186,5 +191,14 @@ export default {
   padding: 3px;
   font-size: 18px;
   float: right;
+}
+.errorinput {
+  border-color: red;
+}
+.error-tip {
+  padding: 5px;
+  margin-left: 15px;
+  color: red;
+  font-size: 18px;
 }
 </style>
